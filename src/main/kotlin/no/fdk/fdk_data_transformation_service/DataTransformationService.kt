@@ -8,7 +8,7 @@ class DataTransformationService : HttpFunction {
 
     override fun service(request: HttpRequest, response: HttpResponse) {
         val writer = response.writer
-        writer.write("hello function")
+        writer.write("hello function test")
     }
 
 }
