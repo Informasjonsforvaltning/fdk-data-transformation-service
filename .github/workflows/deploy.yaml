@@ -1,0 +1,36 @@
+name: Deploy as Google function
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-test-and-deploy-production:
+    name: Deploy on merge to master branch
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_email: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_KEY }}
+
+      - name: Deploy
+        run: gcloud functions deploy fdk-data-transformation-service --entry-point no.fdk.fdk_data_transformation_service.DataTransformationService --runtime java11 --trigger-http --memory 512MB --allow-unauthenticated
+
+      - name: Notify slack
+        uses: 8398a7/action-slack@v3
+        with:
+          mention: 'channel'
+          if_mention: failure
+          status: ${{ job.status }}
+          author_name: 'Application: fdk-data-transformation-service'
+          fields: commit,author,workflow,message
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
