@@ -55,5 +55,5 @@ private fun HttpRequest.catalogType(): CatalogType? =
         ?.let { CatalogType.valueOf(it) }
 
 private fun transformCatalogForSPARQL(catalogType: CatalogType) {
-    LOGGER.info("Transform catalog '$catalogType'")
+    LOGGER.debug("Transform catalog '$catalogType'")
 }
