@@ -16,11 +16,18 @@ jobs:
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@master
         with:
-          service_account_email: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_EMAIL }}
-          service_account_key: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_KEY }}
+          service_account_email: ${{ secrets.DIGDIR_CLOUD_FUNCTIONS_SA_EMAIL }}
+          service_account_key: ${{ secrets.DIGDIR_CLOUD_FUNCTIONS_SA_KEY }}
 
       - name: Deploy
-        run: gcloud functions deploy fdk-data-transformation-service --entry-point no.fdk.fdk_data_transformation_service.DataTransformationService --runtime java11 --trigger-http --memory 512MB --allow-unauthenticated
+        uses: google-github-actions/deploy-cloud-functions@main
+        with:
+          name: fdk-data-transformation-service
+          runtime: java11
+          entry_point: no.fdk.fdk_data_transformation_service.DataTransformationService
+          memory: 1024
+          region: europe-west1
+          max_instances: 1
 
       - name: Notify slack
         uses: 8398a7/action-slack@v3
