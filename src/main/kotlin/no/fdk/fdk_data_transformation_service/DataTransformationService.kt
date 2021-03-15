@@ -9,26 +9,50 @@ import java.net.HttpURLConnection
 
 val LOGGER: Logger = LoggerFactory.getLogger(DataTransformationService::class.java)
 val ENDPOINTS = listOf("/transform")
+val PATH_METHODS = mapOf(Pair("/transform", listOf("POST")))
 
 class DataTransformationService : HttpFunction {
 
-    override fun service(request: HttpRequest, response: HttpResponse) {
-        val catalogTypes = request.queryParameters["catalog"]?.map { it.toUpperCase() }
-        val catalogType = catalogTypes?.firstOrNull()
+    override fun service(request: HttpRequest, response: HttpResponse) =
         when {
-            !ENDPOINTS.contains(request.path) -> response.setStatusCode(HttpURLConnection.HTTP_NOT_FOUND)
-            request.method != "POST" -> response.setStatusCode(HttpURLConnection.HTTP_BAD_METHOD)
-            catalogType.isNullOrBlank() -> response.setStatusCode(HttpURLConnection.HTTP_BAD_REQUEST)
-            catalogTypes.size > 1 -> response.setStatusCode(HttpURLConnection.HTTP_BAD_REQUEST)
-            !CatalogType.values().map { it.name }.contains(catalogType) -> response.setStatusCode(HttpURLConnection.HTTP_BAD_REQUEST)
+            request.pathIsNotValid() -> response.setStatusCode(HttpURLConnection.HTTP_NOT_FOUND)
+            request.methodIsNotValid() -> response.setStatusCode(HttpURLConnection.HTTP_BAD_METHOD)
+            request.queryParametersIsNotValid() -> response.setStatusCode(HttpURLConnection.HTTP_BAD_REQUEST)
             else -> {
-                transformCatalogForSPARQL(CatalogType.valueOf(catalogType))
+                transformCatalogForSPARQL(request.catalogType()!!)
                 response.setStatusCode(HttpURLConnection.HTTP_ACCEPTED)
             }
         }
-    }
 
 }
+
+private fun HttpRequest.pathIsNotValid(): Boolean =
+    ENDPOINTS.doesNotContain(path)
+
+private fun HttpRequest.methodIsNotValid(): Boolean =
+    PATH_METHODS[path]
+        ?.doesNotContain(method)
+        ?: true
+
+private fun List<String>.doesNotContain(input: String): Boolean =
+    !contains(input)
+
+private fun HttpRequest.queryParametersIsNotValid(): Boolean {
+    val catalogTypes = queryParameters["catalog"]
+    val catalogType: String = catalogTypes?.firstOrNull()?.toUpperCase() ?: ""
+
+    return when {
+        catalogTypes?.size != 1 -> true
+        CatalogType.values().map { it.name }.contains(catalogType) -> false
+        else -> true
+    }
+}
+
+private fun HttpRequest.catalogType(): CatalogType? =
+    queryParameters["catalog"]
+        ?.firstOrNull()
+        ?.toUpperCase()
+        ?.let { CatalogType.valueOf(it) }
 
 private fun transformCatalogForSPARQL(catalogType: CatalogType) {
     LOGGER.info("Transform catalog '$catalogType'")
