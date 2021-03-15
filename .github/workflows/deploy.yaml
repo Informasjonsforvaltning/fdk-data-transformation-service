@@ -3,11 +3,11 @@ name: Deploy as Google function
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
-  build-test-and-deploy-production:
-    name: Deploy on merge to master branch
+  deploy:
+    name: Deploy on merge to main branch
     runs-on: ubuntu-latest
 
     steps:
