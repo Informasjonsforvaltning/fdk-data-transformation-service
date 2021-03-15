@@ -9,12 +9,6 @@
     <name>FDK Data Transformation Service</name>
     <version>1.0.0</version>
 
-    <parent>
-        <groupId>com.google.cloud.samples</groupId>
-        <artifactId>shared-configuration</artifactId>
-        <version>1.0.21</version>
-    </parent>
-
     <properties>
         <java.release>11</java.release>
         <java.encoding>UTF-8</java.encoding>
@@ -43,9 +37,20 @@
             <version>1.7.30</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.30</version>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>6.6</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.12.2</version>
         </dependency>
 
         <!-- Kotlin dependencies -->
@@ -59,7 +64,6 @@
             <artifactId>kotlin-reflect</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
-
 
         <!-- RDF dependencies -->
         <dependency>
