@@ -12,7 +12,5 @@ A service (implemented as function) that transforms our harvested data to make t
 mvn function:run
 ```
 
-## Headers
-Content-Type is required and should include charset, i.e: text/turtle;charset=UTF-8
-
-Accept defaults to text/turtle and will always use charset=UTF-8
+## Query parameters
+`catalog` is required and the only acceptable values are `datasets`, `dataservices`, `concepts`, `informationmodels`, `publicservices` and `events`
