@@ -13,11 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup gcloud CLI
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          service_account_email: ${{ secrets.DIGDIR_CLOUD_FUNCTIONS_SA_EMAIL }}
-          service_account_key: ${{ secrets.DIGDIR_CLOUD_FUNCTIONS_SA_KEY }}
+#      - name: Setup gcloud CLI
+#        uses: google-github-actions/setup-gcloud@master
+#        with:
+#          service_account_email: ${{ secrets.DIGDIR_CLOUD_FUNCTIONS_SA_EMAIL }}
+#          service_account_key: ${{ secrets.DIGDIR_CLOUD_FUNCTIONS_SA_KEY }}
 
       - name: Deploy
         uses: google-github-actions/deploy-cloud-functions@main
@@ -25,19 +25,21 @@ jobs:
           name: fdk-data-transformation-service
           runtime: java11
           entry_point: no.fdk.fdk_data_transformation_service.DataTransformationService
-          memory: 1024
+          memory_mb: 1024
           region: europe-west1
           max_instances: 1
+          credentials: ${{ secrets.DIGDIR_CLOUD_FUNCTIONS_SA_KEY }}
+          service_account_email: ${{ secrets.DIGDIR_CLOUD_FUNCTIONS_SA_EMAIL }}
 
-      - name: Notify slack
-        uses: 8398a7/action-slack@v3
-        with:
-          mention: 'channel'
-          if_mention: failure
-          status: ${{ job.status }}
-          author_name: 'Application: fdk-data-transformation-service'
-          fields: commit,author,workflow,message
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: always()
+#      - name: Notify slack
+#        uses: 8398a7/action-slack@v3
+#        with:
+#          mention: 'channel'
+#          if_mention: failure
+#          status: ${{ job.status }}
+#          author_name: 'Application: fdk-data-transformation-service'
+#          fields: commit,author,workflow,message
+#        env:
+#          GITHUB_TOKEN: ${{ github.token }}
+#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+#        if: always()
