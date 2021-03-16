@@ -1,4 +1,4 @@
-package no.fdk.fdk_data_transformation_service
+package no.fdk.fdk_data_transformation_service.enum
 
 enum class CatalogType {
     DATASETS,
@@ -7,4 +7,10 @@ enum class CatalogType {
     INFORMATIONMODELS,
     EVENTS,
     PUBLICSERVICES
+}
+
+enum class Environment {
+    STAGING,
+    DEMO,
+    PROD,
 }
