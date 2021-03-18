@@ -3,10 +3,12 @@ package no.fdk.fdk_data_transformation_service
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
 import com.nhaarman.mockitokotlin2.*
+import no.fdk.fdk_data_transformation_service.utils.ApiTestContext
+import no.fdk.fdk_data_transformation_service.utils.LOCAL_SERVER_PORT
 import org.junit.jupiter.api.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ResponseTest {
+class ResponseTest: ApiTestContext() {
     private val request: HttpRequest = mock()
     private val response: HttpResponse = mock()
 
@@ -68,7 +70,6 @@ class ResponseTest {
         whenever(request.path).thenReturn("/transform")
         whenever(request.method).thenReturn("POST")
         whenever(request.queryParameters).thenReturn(mapOf(Pair("catalog", listOf("datasets", "concepts"))))
-        System.setProperty("uris.concepts", "http://localhost:5000")
 
         DataTransformationService().service(request, response)
 
@@ -119,7 +120,6 @@ class ResponseTest {
                 Pair("environment", listOf("prod", "demo"))
             )
         )
-        System.setProperty("uris.concepts", "http://localhost:5000")
 
         DataTransformationService().service(request, response)
 
@@ -139,7 +139,6 @@ class ResponseTest {
                 Pair("environment", listOf("staging"))
             )
         )
-        System.setProperty("uris.datasets", "http://localhost:5000/datasets")
 
         DataTransformationService().service(request, response)
 
@@ -159,7 +158,6 @@ class ResponseTest {
                 Pair("environment", listOf("staging"))
             )
         )
-        System.setProperty("uris.dataservices", "http://localhost:5000/dataservices")
 
         DataTransformationService().service(request, response)
 
@@ -179,7 +177,6 @@ class ResponseTest {
                 Pair("environment", listOf("staging"))
             )
         )
-        System.setProperty("uris.concepts", "http://localhost:5000")
 
         DataTransformationService().service(request, response)
 
@@ -199,7 +196,6 @@ class ResponseTest {
                 Pair("environment", listOf("staging"))
             )
         )
-        System.setProperty("uris.informationmodels", "http://localhost:5000/informationmodels")
 
         DataTransformationService().service(request, response)
 
@@ -219,7 +215,6 @@ class ResponseTest {
                 Pair("environment", listOf("staging"))
             )
         )
-        System.setProperty("uris.fdkbase", "http://localhost:5000")
 
         DataTransformationService().service(request, response)
 
@@ -239,7 +234,6 @@ class ResponseTest {
                 Pair("environment", listOf("staging"))
             )
         )
-        System.setProperty("uris.fdkbase", "http://localhost:5000")
 
         DataTransformationService().service(request, response)
 

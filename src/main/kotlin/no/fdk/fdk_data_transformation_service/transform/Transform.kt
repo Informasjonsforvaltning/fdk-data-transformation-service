@@ -2,24 +2,24 @@ package no.fdk.fdk_data_transformation_service.transform
 
 import no.fdk.fdk_data_transformation_service.enum.CatalogType
 import no.fdk.fdk_data_transformation_service.enum.Environment
-import no.fdk.fdk_data_transformation_service.adapter.RDFAdapter
 import no.fdk.fdk_data_transformation_service.adapter.SPARQLAdapter
 import no.fdk.fdk_data_transformation_service.enum.UriType
 import no.fdk.fdk_data_transformation_service.env.*
+import org.apache.jena.riot.Lang
+import org.apache.jena.riot.RDFDataMgr
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 private val LOGGER: Logger = LoggerFactory.getLogger(Transform::class.java)
 
 class Transform(
-    private val rdfAdapter: RDFAdapter,
     private val sparqlAdapter: SPARQLAdapter
 ) {
     fun transformCatalogForSPARQL(catalogType: CatalogType, environment: Environment) {
         LOGGER.debug("Starting sparql-transform of $catalogType")
         val orgURI = "${UriType.ORGANIZATION.uri(environment)}/organizations"
-        val orgs = rdfAdapter.getRDF(orgURI)
-        val catalog = rdfAdapter.getRDF(catalogType.uri(environment))
+        val orgs = RDFDataMgr.loadModel(orgURI, Lang.TURTLE)
+        val catalog = RDFDataMgr.loadModel(catalogType.uri(environment), Lang.TURTLE)
 
         val transformedCatalog = orgs?.createModelOfPublishersWithOrgData(
             catalog?.extractInadequatePublishers() ?: emptySet(), environment)

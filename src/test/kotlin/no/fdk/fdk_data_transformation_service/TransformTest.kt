@@ -1,37 +1,26 @@
 package no.fdk.fdk_data_transformation_service
 
 import com.nhaarman.mockitokotlin2.*
-import no.fdk.fdk_data_transformation_service.adapter.RDFAdapter
 import no.fdk.fdk_data_transformation_service.adapter.SPARQLAdapter
 import no.fdk.fdk_data_transformation_service.enum.CatalogType
 import no.fdk.fdk_data_transformation_service.enum.Environment
 import no.fdk.fdk_data_transformation_service.transform.Transform
+import no.fdk.fdk_data_transformation_service.utils.ApiTestContext
 import no.fdk.fdk_data_transformation_service.utils.TestResponseReader
 import org.apache.jena.rdf.model.Model
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertTrue
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TransformTest {
-    private val rdfAdapter: RDFAdapter = mock()
+class TransformTest: ApiTestContext() {
     private val sparqlAdapter: SPARQLAdapter = mock()
-    private val transformer = Transform(rdfAdapter, sparqlAdapter)
+    private val transformer = Transform(sparqlAdapter)
 
     private val responseReader = TestResponseReader()
 
     @BeforeEach
-    fun beforeTests() {
-        reset(sparqlAdapter, rdfAdapter)
-        whenever(rdfAdapter.getRDF("https://concepts.staging.fellesdatakatalog.digdir.no/concepts"))
-            .thenReturn(responseReader.parseTurtleFile("concepts.ttl"))
-        whenever(rdfAdapter.getRDF("https://dataservices.staging.fellesdatakatalog.digdir.no/catalogs"))
-            .thenReturn(responseReader.parseTurtleFile("dataservices.ttl"))
-        whenever(rdfAdapter.getRDF("https://datasets.staging.fellesdatakatalog.digdir.no/catalogs"))
-            .thenReturn(responseReader.parseTurtleFile("datasets.ttl"))
-        whenever(rdfAdapter.getRDF("https://informationmodels.staging.fellesdatakatalog.digdir.no/catalogs"))
-            .thenReturn(responseReader.parseTurtleFile("infomodels.ttl"))
-        whenever(rdfAdapter.getRDF("https://organization-catalogue.staging.fellesdatakatalog.digdir.no/organizations"))
-            .thenReturn(responseReader.parseTurtleFile("orgs.ttl"))
+    fun resetMock() {
+        reset(sparqlAdapter)
     }
 
     @Test
