@@ -4,6 +4,7 @@ import no.fdk.fdk_data_transformation_service.enum.CatalogType
 import no.fdk.fdk_data_transformation_service.enum.Environment
 import no.fdk.fdk_data_transformation_service.adapter.RDFAdapter
 import no.fdk.fdk_data_transformation_service.adapter.SPARQLAdapter
+import no.fdk.fdk_data_transformation_service.enum.UriType
 import no.fdk.fdk_data_transformation_service.env.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -16,7 +17,7 @@ class Transform(
 ) {
     fun transformCatalogForSPARQL(catalogType: CatalogType, environment: Environment) {
         LOGGER.debug("Starting sparql-transform of $catalogType")
-        val orgURI = "${organizationsURI(environment)}/organizations"
+        val orgURI = "${UriType.ORGANIZATION.uri(environment)}/organizations"
         val orgs = rdfAdapter.getRDF(orgURI)
         val catalog = rdfAdapter.getRDF(catalogType.uri(environment))
 

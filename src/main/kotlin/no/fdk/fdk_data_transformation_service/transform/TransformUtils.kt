@@ -2,6 +2,7 @@ package no.fdk.fdk_data_transformation_service.transform
 
 import no.fdk.fdk_data_transformation_service.enum.CatalogType
 import no.fdk.fdk_data_transformation_service.enum.Environment
+import no.fdk.fdk_data_transformation_service.enum.UriType
 import no.fdk.fdk_data_transformation_service.env.*
 import no.fdk.fdk_data_transformation_service.rdf.BR
 import no.fdk.fdk_data_transformation_service.rdf.isResourceProperty
@@ -79,17 +80,17 @@ fun Resource.dctIdentifierIsInadequate(): Boolean =
 
 fun CatalogType.uri(environment: Environment): String =
     when (this) {
-        CatalogType.CONCEPTS -> "${conceptsURI(environment)}/concepts"
-        CatalogType.DATASERVICES -> "${dataServicesURI(environment)}/catalogs"
-        CatalogType.DATASETS -> "${datasetsURI(environment)}/catalogs"
-        CatalogType.EVENTS -> "${fdkBaseURI(environment)}/api/events"
-        CatalogType.INFORMATIONMODELS -> "${informationModelsURI(environment)}/catalogs"
-        CatalogType.PUBLICSERVICES -> "${fdkBaseURI(environment)}/api/public-services"
+        CatalogType.CONCEPTS -> "${UriType.CONCEPTS.uri(environment)}/concepts"
+        CatalogType.DATASERVICES -> "${UriType.DATASERVICES.uri(environment)}/catalogs"
+        CatalogType.DATASETS -> "${UriType.DATASETS.uri(environment)}/catalogs"
+        CatalogType.EVENTS -> "${UriType.FDK.uri(environment)}/api/events"
+        CatalogType.INFORMATIONMODELS -> "${UriType.INFORMATIONMODELS.uri(environment)}/catalogs"
+        CatalogType.PUBLICSERVICES -> "${UriType.FDK.uri(environment)}/api/public-services"
     }
 
 fun Model.orgResourceForPublisher(publisherURI: String, environment: Environment): Resource? =
     orgIdFromURI(publisherURI)
-        ?.let { getResource("${organizationsURI(environment)}/organizations/$it") }
+        ?.let { getResource("${UriType.ORGANIZATION.uri(environment)}/organizations/$it") }
 
 fun RDFNode.extractPublisherId(): String? =
     when {

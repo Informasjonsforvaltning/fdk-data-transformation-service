@@ -14,3 +14,13 @@ enum class Environment {
     DEMO,
     PROD,
 }
+
+enum class UriType {
+    DATASETS,
+    DATASERVICES,
+    CONCEPTS,
+    INFORMATIONMODELS,
+    FDK,
+    ORGANIZATION,
+    SPARQL
+}
