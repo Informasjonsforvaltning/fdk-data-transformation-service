@@ -1,7 +1,6 @@
 package no.fdk.fdk_data_transformation_service.controller
 
 import no.fdk.fdk_data_transformation_service.enum.CatalogType
-import no.fdk.fdk_data_transformation_service.enum.Environment
 import no.fdk.fdk_data_transformation_service.transform.TransformActivity
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -18,10 +17,9 @@ class TransformController(
 
     @PostMapping
     fun updateMetaData(
-        @RequestParam(value = "catalog", required = true) catalog: CatalogType,
-        @RequestParam(value = "environment", required = true) environment: Environment
+        @RequestParam(value = "catalog", required = true) catalog: CatalogType
     ): ResponseEntity<Void> {
-        transformActivity.initiateTransform(catalog, environment)
+        transformActivity.initiateTransform(catalog)
         return ResponseEntity(HttpStatus.OK)
     }
 

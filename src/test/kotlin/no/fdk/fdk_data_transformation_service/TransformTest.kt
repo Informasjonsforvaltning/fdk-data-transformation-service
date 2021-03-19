@@ -3,7 +3,6 @@ package no.fdk.fdk_data_transformation_service
 import com.nhaarman.mockitokotlin2.*
 import no.fdk.fdk_data_transformation_service.adapter.SPARQLAdapter
 import no.fdk.fdk_data_transformation_service.enum.CatalogType
-import no.fdk.fdk_data_transformation_service.enum.Environment
 import no.fdk.fdk_data_transformation_service.transform.Transform
 import no.fdk.fdk_data_transformation_service.utils.ApiTestContext
 import no.fdk.fdk_data_transformation_service.utils.TestResponseReader
@@ -25,57 +24,53 @@ class TransformTest: ApiTestContext() {
 
     @Test
     fun testConcepts() {
-        transformer.transformCatalogForSPARQL(CatalogType.CONCEPTS, Environment.STAGING)
+        transformer.transformCatalogForSPARQL(CatalogType.CONCEPTS)
 
         val expected = responseReader.parseTurtleFile("transformed_concepts.ttl")
 
-        argumentCaptor<Model, CatalogType, Environment>().apply {
-            verify(sparqlAdapter, times(1)).updateGraph(first.capture(), second.capture(), third.capture())
+        argumentCaptor<Model, CatalogType>().apply {
+            verify(sparqlAdapter, times(1)).updateGraph(first.capture(), second.capture())
             assertTrue(expected.isIsomorphicWith(first.firstValue))
             Assertions.assertEquals(CatalogType.CONCEPTS, second.firstValue)
-            Assertions.assertEquals(Environment.STAGING, third.firstValue)
         }
     }
 
     @Test
     fun testDataServices() {
-        transformer.transformCatalogForSPARQL(CatalogType.DATASERVICES, Environment.STAGING)
+        transformer.transformCatalogForSPARQL(CatalogType.DATASERVICES, )
 
         val expected = responseReader.parseTurtleFile("transformed_dataservices.ttl")
 
-        argumentCaptor<Model, CatalogType, Environment>().apply {
-            verify(sparqlAdapter, times(1)).updateGraph(first.capture(), second.capture(), third.capture())
+        argumentCaptor<Model, CatalogType>().apply {
+            verify(sparqlAdapter, times(1)).updateGraph(first.capture(), second.capture())
             assertTrue(expected.isIsomorphicWith(first.firstValue))
             Assertions.assertEquals(CatalogType.DATASERVICES, second.firstValue)
-            Assertions.assertEquals(Environment.STAGING, third.firstValue)
         }
     }
 
     @Test
     fun testDatasets() {
-        transformer.transformCatalogForSPARQL(CatalogType.DATASETS, Environment.STAGING)
+        transformer.transformCatalogForSPARQL(CatalogType.DATASETS, )
 
         val expected = responseReader.parseTurtleFile("transformed_datasets.ttl")
 
-        argumentCaptor<Model, CatalogType, Environment>().apply {
-            verify(sparqlAdapter, times(1)).updateGraph(first.capture(), second.capture(), third.capture())
+        argumentCaptor<Model, CatalogType>().apply {
+            verify(sparqlAdapter, times(1)).updateGraph(first.capture(), second.capture())
             assertTrue(expected.isIsomorphicWith(first.firstValue))
             Assertions.assertEquals(CatalogType.DATASETS, second.firstValue)
-            Assertions.assertEquals(Environment.STAGING, third.firstValue)
         }
     }
 
     @Test
     fun testInformationModels() {
-        transformer.transformCatalogForSPARQL(CatalogType.INFORMATIONMODELS, Environment.STAGING)
+        transformer.transformCatalogForSPARQL(CatalogType.INFORMATIONMODELS, )
 
         val expected = responseReader.parseTurtleFile("transformed_infomodels.ttl")
 
-        argumentCaptor<Model, CatalogType, Environment>().apply {
-            verify(sparqlAdapter, times(1)).updateGraph(first.capture(), second.capture(), third.capture())
+        argumentCaptor<Model, CatalogType>().apply {
+            verify(sparqlAdapter, times(1)).updateGraph(first.capture(), second.capture())
             assertTrue(expected.isIsomorphicWith(first.firstValue))
             Assertions.assertEquals(CatalogType.INFORMATIONMODELS, second.firstValue)
-            Assertions.assertEquals(Environment.STAGING, third.firstValue)
         }
     }
 

@@ -9,12 +9,6 @@ enum class CatalogType {
     PUBLICSERVICES
 }
 
-enum class Environment {
-    STAGING,
-    DEMO,
-    PROD,
-}
-
 enum class UriType {
     DATASETS,
     DATASERVICES,
