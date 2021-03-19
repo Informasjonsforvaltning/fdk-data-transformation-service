@@ -86,6 +86,17 @@ fun CatalogType.uri(uris: ApplicationURI): String =
         CatalogType.PUBLICSERVICES -> uris.publicservices
     }
 
+fun catalogTypeFromRabbitMessageKey(key: String): CatalogType? =
+    when {
+        key.contains("concepts") -> CatalogType.CONCEPTS
+        key.contains("dataservices") -> CatalogType.DATASERVICES
+        key.contains("datasets") -> CatalogType.DATASETS
+        key.contains("informationmodels") -> CatalogType.INFORMATIONMODELS
+        key.contains("events") -> CatalogType.EVENTS
+        key.contains("public_services") -> CatalogType.PUBLICSERVICES
+        else -> null
+    }
+
 fun Model.orgResourceForPublisher(publisherURI: String, orgsURI: String): Resource? =
     orgIdFromURI(publisherURI)
         ?.let { getResource("$orgsURI/$it") }

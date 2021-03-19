@@ -8,12 +8,16 @@ import org.springframework.stereotype.Service
 
 
 @Service
-class TransformActivity(private val transform: Transform) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
+class TransformActivity(
+    private val transform: Transform
+) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
-
-    fun initiateTransform(catalogType: CatalogType) {
-
-        launch { transform.transformCatalogForSPARQL(catalogType) }
-    }
+    fun initiateTransform(key: String) =
+        catalogTypeFromRabbitMessageKey(key)
+            ?.let {
+                if (it != CatalogType.CONCEPTS) {
+                    launch { transform.transformCatalogForSPARQL(it) }
+                }
+            }
 
 }
