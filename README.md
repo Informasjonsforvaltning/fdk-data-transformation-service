@@ -9,8 +9,15 @@ A service (implemented as function) that transforms our harvested data to make t
 
 ## Run locally
 ```
+docker-compose up -d
 mvn function:run
 ```
 
+## Run tests
+```
+mvn clean verify
+```
+
 ## Query parameters
-`catalog` is required and the only acceptable values are `datasets`, `dataservices`, `concepts`, `informationmodels`, `publicservices` and `events`
+`catalog` is required, and the only acceptable values are `datasets`, `dataservices`, `concepts`, `informationmodels`, `publicservices` and `events`
+`environment` is required, and the only acceptable values are `staging`, `demo` and `prod`
