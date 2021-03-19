@@ -1,20 +1,19 @@
 package no.fdk.fdk_data_transformation_service.env
 
-import no.fdk.fdk_data_transformation_service.enum.Environment
 import no.fdk.fdk_data_transformation_service.enum.UriType
 
-fun UriType.uri(environment: Environment): String =
-    System.getenv(envName(environment)) ?: System.getProperty(property(), default())
+fun UriType.uri(): String =
+    System.getenv(envName()) ?: System.getProperty(property(), default())
 
-private fun UriType.envName(environment: Environment): String =
+private fun UriType.envName(): String =
     when(this) {
-        UriType.DATASETS -> "${environment}_DATASETS_HARVESTER_URI"
-        UriType.DATASERVICES -> "${environment}_DATASERVICE_HARVESTER_URI"
-        UriType.CONCEPTS -> "${environment}_CONCEPT_HARVESTER_URI"
-        UriType.INFORMATIONMODELS -> "${environment}_INFO_MODEL_HARVESTER_URI"
-        UriType.FDK -> "${environment}_BASE_URI"
-        UriType.ORGANIZATION -> "${environment}_ORGANIZATION_CATALOGUE"
-        UriType.SPARQL -> "${environment}_SPARQL_SERVICE_URI"
+        UriType.DATASETS -> "FDK_DATASETS_HARVESTER_URI"
+        UriType.DATASERVICES -> "FDK_DATASERVICE_HARVESTER_URI"
+        UriType.CONCEPTS -> "FDK_CONCEPT_HARVESTER_URI"
+        UriType.INFORMATIONMODELS -> "FDK_INFO_MODEL_HARVESTER_URI"
+        UriType.FDK -> "FDK_BASE_URI"
+        UriType.ORGANIZATION -> "FDK_ORGANIZATION_CATALOGUE"
+        UriType.SPARQL -> "FDK_SPARQL_SERVICE_URI"
     }
 
 private fun UriType.property(): String =

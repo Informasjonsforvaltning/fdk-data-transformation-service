@@ -5,7 +5,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import no.fdk.fdk_data_transformation_service.adapter.SPARQLAdapter
 import no.fdk.fdk_data_transformation_service.enum.CatalogType
-import no.fdk.fdk_data_transformation_service.enum.Environment
 import org.springframework.stereotype.Service
 
 
@@ -13,11 +12,11 @@ import org.springframework.stereotype.Service
 class TransformActivity(private val sparqlAdapter: SPARQLAdapter) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
 
-    fun initiateTransform(catalogType: CatalogType, environment: Environment) {
+    fun initiateTransform(catalogType: CatalogType) {
 
         launch {
             Transform(sparqlAdapter)
-                .transformCatalogForSPARQL(catalogType, environment)
+                .transformCatalogForSPARQL(catalogType)
         }
     }
 

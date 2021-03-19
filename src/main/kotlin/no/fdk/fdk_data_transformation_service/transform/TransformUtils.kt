@@ -1,7 +1,6 @@
 package no.fdk.fdk_data_transformation_service.transform
 
 import no.fdk.fdk_data_transformation_service.enum.CatalogType
-import no.fdk.fdk_data_transformation_service.enum.Environment
 import no.fdk.fdk_data_transformation_service.enum.UriType
 import no.fdk.fdk_data_transformation_service.env.*
 import no.fdk.fdk_data_transformation_service.rdf.BR
@@ -18,11 +17,11 @@ import org.apache.jena.vocabulary.ROV
 import org.apache.jena.vocabulary.SKOS
 
 
-fun Model.createModelOfPublishersWithOrgData(publisherURIs: Set<String>, environment: Environment): Model {
+fun Model.createModelOfPublishersWithOrgData(publisherURIs: Set<String>): Model {
     val model = ModelFactory.createDefaultModel()
     model.setNsPrefixes(nsPrefixMap)
 
-    publisherURIs.map { Pair(it, orgResourceForPublisher(it, environment)) }
+    publisherURIs.map { Pair(it, orgResourceForPublisher(it)) }
         .filter { it.second != null }
         .forEach {
             model.createResource(it.first).addPropertiesFromOrgResource(it.second)
@@ -78,19 +77,19 @@ fun Resource.dctIdentifierIsInadequate(): Boolean =
         .mapNotNull { it.extractPublisherId() }
         .isNullOrEmpty()
 
-fun CatalogType.uri(environment: Environment): String =
+fun CatalogType.uri(): String =
     when (this) {
-        CatalogType.CONCEPTS -> "${UriType.CONCEPTS.uri(environment)}/concepts"
-        CatalogType.DATASERVICES -> "${UriType.DATASERVICES.uri(environment)}/catalogs"
-        CatalogType.DATASETS -> "${UriType.DATASETS.uri(environment)}/catalogs"
-        CatalogType.EVENTS -> "${UriType.FDK.uri(environment)}/api/events"
-        CatalogType.INFORMATIONMODELS -> "${UriType.INFORMATIONMODELS.uri(environment)}/catalogs"
-        CatalogType.PUBLICSERVICES -> "${UriType.FDK.uri(environment)}/api/public-services"
+        CatalogType.CONCEPTS -> "${UriType.CONCEPTS.uri()}/concepts"
+        CatalogType.DATASERVICES -> "${UriType.DATASERVICES.uri()}/catalogs"
+        CatalogType.DATASETS -> "${UriType.DATASETS.uri()}/catalogs"
+        CatalogType.EVENTS -> "${UriType.FDK.uri()}/api/events"
+        CatalogType.INFORMATIONMODELS -> "${UriType.INFORMATIONMODELS.uri()}/catalogs"
+        CatalogType.PUBLICSERVICES -> "${UriType.FDK.uri()}/api/public-services"
     }
 
-fun Model.orgResourceForPublisher(publisherURI: String, environment: Environment): Resource? =
+fun Model.orgResourceForPublisher(publisherURI: String): Resource? =
     orgIdFromURI(publisherURI)
-        ?.let { getResource("${UriType.ORGANIZATION.uri(environment)}/organizations/$it") }
+        ?.let { getResource("${UriType.ORGANIZATION.uri()}/organizations/$it") }
 
 fun RDFNode.extractPublisherId(): String? =
     when {
