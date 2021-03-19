@@ -10,7 +10,7 @@ A service that transforms our harvested data to make them more suited for doing 
 ## Run locally
 ```
 docker-compose up -d
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.profiles=develop
 ```
 
 ## Run tests

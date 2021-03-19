@@ -8,13 +8,3 @@ enum class CatalogType {
     EVENTS,
     PUBLICSERVICES
 }
-
-enum class UriType {
-    DATASETS,
-    DATASERVICES,
-    CONCEPTS,
-    INFORMATIONMODELS,
-    FDK,
-    ORGANIZATION,
-    SPARQL
-}

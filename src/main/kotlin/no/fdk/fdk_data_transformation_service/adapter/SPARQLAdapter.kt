@@ -1,8 +1,7 @@
 package no.fdk.fdk_data_transformation_service.adapter
 
+import no.fdk.fdk_data_transformation_service.config.ApplicationURI
 import no.fdk.fdk_data_transformation_service.enum.CatalogType
-import no.fdk.fdk_data_transformation_service.enum.UriType
-import no.fdk.fdk_data_transformation_service.env.*
 import no.fdk.fdk_data_transformation_service.rdf.createRDFResponse
 import org.apache.http.HttpHeaders
 import org.apache.jena.rdf.model.Model
@@ -27,12 +26,12 @@ private fun CatalogType.graphName() =
     }
 
 @Service
-class SPARQLAdapter {
+class SPARQLAdapter(private val uris: ApplicationURI) {
 
     fun updateGraph(model: Model, catalogType: CatalogType) {
         val graphName = catalogType.graphName()
         LOGGER.debug("Updating graph '$graphName' in fdk-sparql-service")
-        val sparqlURI = "${UriType.SPARQL.uri()}/fuseki/harvested?graph=$graphName"
+        val sparqlURI = "${uris.sparqlservice}/fuseki/harvested?graph=$graphName"
         with(URL(sparqlURI).openConnection() as HttpURLConnection) {
             try {
 
