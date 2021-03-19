@@ -1,5 +1,5 @@
 # fdk-data-transformation-service
-A service (implemented as function) that transforms our harvested data to make them more suited for doing analytics
+A service that transforms our harvested data to make them more suited for doing analytics
 
 ## Requirements
 - maven
@@ -10,7 +10,7 @@ A service (implemented as function) that transforms our harvested data to make t
 ## Run locally
 ```
 docker-compose up -d
-mvn function:run
+mvn spring-boot:run
 ```
 
 ## Run tests

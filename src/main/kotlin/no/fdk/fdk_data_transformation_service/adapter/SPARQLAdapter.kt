@@ -10,6 +10,7 @@ import org.apache.jena.rdf.model.Model
 import org.apache.jena.riot.Lang
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
@@ -26,6 +27,7 @@ private fun CatalogType.graphName() =
         CatalogType.PUBLICSERVICES -> "https://data.norge.no/api/public-services"
     }
 
+@Service
 class SPARQLAdapter {
 
     fun updateGraph(model: Model, catalogType: CatalogType, environment: Environment) {
