@@ -2,20 +2,45 @@ package no.fdk.fdk_data_transformation_service
 
 import com.nhaarman.mockitokotlin2.*
 import no.fdk.fdk_data_transformation_service.adapter.SPARQLAdapter
+import no.fdk.fdk_data_transformation_service.config.ApplicationURI
 import no.fdk.fdk_data_transformation_service.enum.CatalogType
 import no.fdk.fdk_data_transformation_service.transform.Transform
 import no.fdk.fdk_data_transformation_service.utils.ApiTestContext
+import no.fdk.fdk_data_transformation_service.utils.LOCAL_SERVER_PORT
 import no.fdk.fdk_data_transformation_service.utils.TestResponseReader
 import org.apache.jena.rdf.model.Model
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.springframework.boot.test.context.SpringBootTest
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringBootTest(properties = ["spring.profiles.active=test"])
 class TransformTest: ApiTestContext() {
     private val sparqlAdapter: SPARQLAdapter = mock()
-    private val transformer = Transform(sparqlAdapter)
+    private val uris: ApplicationURI = mock()
+    private val transformer = Transform(uris, sparqlAdapter)
 
     private val responseReader = TestResponseReader()
+
+    @BeforeAll
+    fun setEnv() {
+        whenever(uris.concepts)
+            .thenReturn("http://localhost:$LOCAL_SERVER_PORT/concepts")
+        whenever(uris.datasets)
+            .thenReturn("http://localhost:$LOCAL_SERVER_PORT/datasets/catalogs")
+        whenever(uris.dataservices)
+            .thenReturn("http://localhost:$LOCAL_SERVER_PORT/dataservices/catalogs")
+        whenever(uris.informationmodels)
+            .thenReturn("http://localhost:$LOCAL_SERVER_PORT/informationmodels/catalogs")
+        whenever(uris.events)
+            .thenReturn("http://localhost:$LOCAL_SERVER_PORT/events")
+        whenever(uris.publicservices)
+            .thenReturn("http://localhost:$LOCAL_SERVER_PORT/public-services")
+        whenever(uris.organizations)
+            .thenReturn("http://localhost:$LOCAL_SERVER_PORT/organizations")
+        whenever(uris.sparqlservice)
+            .thenReturn("http://localhost:$LOCAL_SERVER_PORT")
+    }
 
     @BeforeEach
     fun resetMock() {
