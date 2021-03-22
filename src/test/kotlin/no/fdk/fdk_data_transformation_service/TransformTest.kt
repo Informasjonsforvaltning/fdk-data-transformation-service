@@ -4,7 +4,7 @@ import com.nhaarman.mockitokotlin2.*
 import no.fdk.fdk_data_transformation_service.adapter.SPARQLAdapter
 import no.fdk.fdk_data_transformation_service.config.ApplicationURI
 import no.fdk.fdk_data_transformation_service.enum.CatalogType
-import no.fdk.fdk_data_transformation_service.transform.Transform
+import no.fdk.fdk_data_transformation_service.transform.TransformService
 import no.fdk.fdk_data_transformation_service.utils.ApiTestContext
 import no.fdk.fdk_data_transformation_service.utils.LOCAL_SERVER_PORT
 import no.fdk.fdk_data_transformation_service.utils.TestResponseReader
@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class TransformTest: ApiTestContext() {
     private val sparqlAdapter: SPARQLAdapter = mock()
     private val uris: ApplicationURI = mock()
-    private val transformer = Transform(uris, sparqlAdapter)
+    private val transformer = TransformService(uris, sparqlAdapter)
 
     private val responseReader = TestResponseReader()
 

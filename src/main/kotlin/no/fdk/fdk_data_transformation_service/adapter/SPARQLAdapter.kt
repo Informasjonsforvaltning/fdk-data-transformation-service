@@ -1,5 +1,6 @@
 package no.fdk.fdk_data_transformation_service.adapter
 
+import no.fdk.fdk_data_transformation_service.config.ApplicationGraph
 import no.fdk.fdk_data_transformation_service.config.ApplicationURI
 import no.fdk.fdk_data_transformation_service.enum.CatalogType
 import no.fdk.fdk_data_transformation_service.rdf.createRDFResponse
@@ -15,21 +16,21 @@ import java.net.URL
 
 private val LOGGER: Logger = LoggerFactory.getLogger(SPARQLAdapter::class.java)
 
-private fun CatalogType.graphName() =
+private fun CatalogType.graphName(graphs: ApplicationGraph) =
     when(this) {
-        CatalogType.CONCEPTS -> "https://concepts.fellesdatakatalog.digdir.no"
-        CatalogType.DATASERVICES -> "https://dataservices.fellesdatakatalog.digdir.no"
-        CatalogType.DATASETS -> "https://datasets.fellesdatakatalog.digdir.no"
-        CatalogType.EVENTS -> "https://data.norge.no/api/events"
-        CatalogType.INFORMATIONMODELS -> "https://informationmodels.fellesdatakatalog.digdir.no"
-        CatalogType.PUBLICSERVICES -> "https://data.norge.no/api/public-services"
+        CatalogType.CONCEPTS -> graphs.concepts
+        CatalogType.DATASERVICES -> graphs.dataservices
+        CatalogType.DATASETS -> graphs.datasets
+        CatalogType.EVENTS -> graphs.events
+        CatalogType.INFORMATIONMODELS -> graphs.informationmodels
+        CatalogType.PUBLICSERVICES -> graphs.publicservices
     }
 
 @Service
-class SPARQLAdapter(private val uris: ApplicationURI) {
+class SPARQLAdapter(private val uris: ApplicationURI, private val graphs: ApplicationGraph) {
 
     fun updateGraph(model: Model, catalogType: CatalogType) {
-        val graphName = catalogType.graphName()
+        val graphName = catalogType.graphName(graphs)
         LOGGER.debug("Updating graph '$graphName' in fdk-sparql-service")
         val sparqlURI = "${uris.sparqlservice}/fuseki/harvested?graph=$graphName"
         with(URL(sparqlURI).openConnection() as HttpURLConnection) {

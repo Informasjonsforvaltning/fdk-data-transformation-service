@@ -4,12 +4,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import no.fdk.fdk_data_transformation_service.enum.CatalogType
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
 
-@Service
+@Component
 class TransformActivity(
-    private val transform: Transform
+    private val transform: TransformService
 ) : CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
     fun initiateTransform(key: String) =
