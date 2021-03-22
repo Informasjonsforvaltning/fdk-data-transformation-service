@@ -9,10 +9,10 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
-private val LOGGER: Logger = LoggerFactory.getLogger(Transform::class.java)
+private val LOGGER: Logger = LoggerFactory.getLogger(TransformService::class.java)
 
 @Service
-class Transform(
+class TransformService(
     private val uris: ApplicationURI,
     private val sparqlAdapter: SPARQLAdapter
 ) {
