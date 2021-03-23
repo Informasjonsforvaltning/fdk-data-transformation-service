@@ -19,7 +19,7 @@ application:
     concepts: http://fdk-concept-harvester:8080/concepts
     informationmodels: http://fdk-informationmodel-harvester:8080/catalogs
     events: http://fdk-event-harvester:8080/events
-    organizations: http://organization-catalogue:8080/organizations
+    organizations: ${ORGANIZATION_CATALOGUE_HOST}/organizations
     publicservices: http://fdk-public-service-harvester:8080/public-services
     sparqlservice: http://fdk-sparql-service:8080
   graph:
