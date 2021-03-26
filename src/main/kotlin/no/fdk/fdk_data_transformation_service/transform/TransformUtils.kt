@@ -15,6 +15,7 @@ import org.apache.jena.vocabulary.RDF
 import org.apache.jena.vocabulary.ROV
 import org.apache.jena.vocabulary.SKOS
 
+const val RECORDS_PARAM_TRUE = "catalogrecords=true"
 
 fun Model.createModelOfPublishersWithOrgData(publisherURIs: Set<String>, orgsURI: String): Model {
     val model = ModelFactory.createDefaultModel()
@@ -78,12 +79,12 @@ fun Resource.dctIdentifierIsInadequate(): Boolean =
 
 fun CatalogType.uri(uris: ApplicationURI): String =
     when (this) {
-        CatalogType.CONCEPTS -> uris.concepts
-        CatalogType.DATASERVICES -> uris.dataservices
-        CatalogType.DATASETS -> uris.datasets
-        CatalogType.EVENTS -> uris.events
-        CatalogType.INFORMATIONMODELS -> uris.informationmodels
-        CatalogType.PUBLICSERVICES -> uris.publicservices
+        CatalogType.CONCEPTS -> "${uris.concepts}?$RECORDS_PARAM_TRUE"
+        CatalogType.DATASERVICES -> "${uris.dataservices}?$RECORDS_PARAM_TRUE"
+        CatalogType.DATASETS -> "${uris.datasets}?$RECORDS_PARAM_TRUE"
+        CatalogType.EVENTS -> "${uris.events}?$RECORDS_PARAM_TRUE"
+        CatalogType.INFORMATIONMODELS -> "${uris.informationmodels}?$RECORDS_PARAM_TRUE"
+        CatalogType.PUBLICSERVICES -> "${uris.publicservices}?$RECORDS_PARAM_TRUE"
     }
 
 fun catalogTypeFromRabbitMessageKey(key: String): CatalogType? =
