@@ -13,6 +13,7 @@
 @prefix dcat:  <http://www.w3.org/ns/dcat#> .
 @prefix prov:  <http://www.w3.org/ns/prov#> .
 @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix oa:    <http://www.w3.org/ns/oa#> .
 
 <http://brreg.no/catalogs/910298062/datasets/7e4fbd01-2684-45c3-8ac1-70ebfebe8513>
         a                          dcat:Dataset ;
@@ -44,6 +45,35 @@
                                      dcat:hadRole  <http://registry.it.csiro.au/def/isotc211/CI_RoleCode/contributor> ;
                                      prov:agent    <https://data.brreg.no/enhetsregisteret/api/enheter/984582021>
                                    ] .
+
+<http://brreg.no/catalogs/910244132/datasets/c32b7a4f-655f-45f6-88f6-d01f05d0f7c2>
+        a                         dcat:Dataset ;
+        dct:accessRights      <http://publications.europa.eu/resource/authority/access-right/PUBLIC> ;
+        dct:description       "bbbb\n\n---\nFormål: "@nb ;
+        dct:provenance        <http://data.brreg.no/datakatalog/provinens/nasjonal> ;
+        dct:publisher         <https://organization-catalogue.staging.fellesdatakatalog.digdir.no/organizations/910244132> ;
+        dct:title             "Fint datasett"@nb ;
+        dcat:distribution         [ a                    dcat:Distribution ;
+                                    dct:description  "Åpent"@nb ;
+                                    dct:format       "json" ;
+                                    dct:license      [ a               dct:LicenseDocument , skos:Concept ;
+                                                           dct:source  "http://data.norge.no/nlod/" ;
+                                                           skos:prefLabel  "Norsk lisens for offentlige data"@no , "Norwegian Licence for Open Government Data"@en
+                                                         ] ;
+                                    dct:title        "TEST"@nb ;
+                                    dcat:accessURL       <https://vg.no>
+                                  ] ;
+        dcat:distribution         [ a               dcat:Distribution ;
+                                    dct:format  "xml"
+                                  ] ;
+        dcat:theme                <http://publications.europa.eu/resource/authority/data-theme/EDUC> ;
+        dqv:hasQualityAnnotation  [ a                dqv:QualityAnnotation ;
+                                    dqv:inDimension  iso:Currentness ;
+                                    oa:hasBody       [ a                 oa:TextualBody ;
+                                                       dct:format    <http://publications.europa.eu/resource/authority/file-type/TXT> ;
+                                                       dct:language  <http://publications.europa.eu/resource/authority/language/NOB>
+                                                     ]
+                                  ] .
 
 <https://fellesdatakatalog.brreg.no/api/concepts/ac207ee9-972a-4ba9-a2d6-c368135caf0b>
         a                skos:Concept ;
@@ -84,7 +114,7 @@
         a              dcat:Catalog ;
         dct:publisher  <https://organization-catalogue.staging.fellesdatakatalog.digdir.no/organizations/910298062> ;
         dct:title      "Datakatalog for HIDRASUND OG BJONEROA"@nb ;
-        dcat:dataset   <http://brreg.no/catalogs/910298062/datasets/12136d8b-024e-4d63-a8ed-5e1885d701cd> , <http://brreg.no/catalogs/910298062/datasets/738c2348-aeb4-4a92-9a10-c39ae6b9f3fe> , <http://brreg.no/catalogs/910298062/datasets/7e4fbd01-2684-45c3-8ac1-70ebfebe8513> .
+        dcat:dataset   <http://brreg.no/catalogs/910298062/datasets/12136d8b-024e-4d63-a8ed-5e1885d701cd> , <http://brreg.no/catalogs/910298062/datasets/738c2348-aeb4-4a92-9a10-c39ae6b9f3fe> , <http://brreg.no/catalogs/910298062/datasets/7e4fbd01-2684-45c3-8ac1-70ebfebe8513> , <http://brreg.no/catalogs/910244132/datasets/c32b7a4f-655f-45f6-88f6-d01f05d0f7c2> .
 
 <http://brreg.no/catalogs/910298062/datasets/738c2348-aeb4-4a92-9a10-c39ae6b9f3fe>
         a                 dcat:Dataset ;
