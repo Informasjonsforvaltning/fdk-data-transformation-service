@@ -1,4 +1,5 @@
 @prefix br:    <https://raw.githubusercontent.com/Informasjonsforvaltning/organization-catalogue/master/src/main/resources/ontology/organization-catalogue.owl#> .
+@prefix fdk:   <https://raw.githubusercontent.com/Informasjonsforvaltning/fdk-data-transformation-service/master/src/main/resources/ontology/fdk.owl#>
 @prefix rov:   <http://www.w3.org/ns/regorg#> .
 @prefix schema: <http://schema.org/> .
 @prefix dcatapi: <http://dcat.no/dcatapi/> .
@@ -9,6 +10,7 @@
 @prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix oa:    <http://www.w3.org/ns/oa#> .
 @prefix dct:   <http://purl.org/dc/terms/> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix dcatno: <http://difi.no/dcatno#> .
@@ -45,7 +47,40 @@
         prov:qualifiedAttribution  [ a             prov:Attribution ;
                                      dcat:hadRole  <http://registry.it.csiro.au/def/isotc211/CI_RoleCode/contributor> ;
                                      prov:agent    <https://data.brreg.no/enhetsregisteret/api/enheter/984582021>
-                                   ] .
+                                   ] ;
+        fdk:isAuthoritative             true ;
+        fdk:isRelatedToTransportportal  true .
+
+<http://brreg.no/catalogs/910244132/datasets/c32b7a4f-655f-45f6-88f6-d01f05d0f7c2>
+        a                         dcat:Dataset ;
+        dct:accessRights          <http://publications.europa.eu/resource/authority/access-right/PUBLIC> ;
+        dct:description           "bbbb\n\n---\nFormål: "@nb ;
+        dct:provenance            <http://data.brreg.no/datakatalog/provinens/nasjonal> ;
+        dct:publisher             <https://organization-catalogue.staging.fellesdatakatalog.digdir.no/organizations/910244132> ;
+        dct:title                 "Fint datasett"@nb ;
+        dcat:distribution         [ a                dcat:Distribution ;
+                                    dct:description  "Åpent"@nb ;
+                                    dct:format       "json" ;
+                                    dct:license      [ a               dct:LicenseDocument , skos:Concept ;
+                                                       dct:source      "http://data.norge.no/nlod/" ;
+                                                       skos:prefLabel  "Norsk lisens for offentlige data"@no , "Norwegian Licence for Open Government Data"@en
+                                                     ] ;
+                                    dct:title        "TEST"@nb ;
+                                    dcat:accessURL   <https://vg.no>
+                                  ] ;
+        dcat:distribution         [ a           dcat:Distribution ;
+                                    dct:format  "xml"
+                                  ] ;
+        dcat:theme                <http://publications.europa.eu/resource/authority/data-theme/EDUC> ;
+        dqv:hasQualityAnnotation  [ a                dqv:QualityAnnotation ;
+                                    dqv:inDimension  iso:Currentness ;
+                                    oa:hasBody       [ a             oa:TextualBody ;
+                                                       dct:format    <http://publications.europa.eu/resource/authority/file-type/TXT> ;
+                                                       dct:language  <http://publications.europa.eu/resource/authority/language/NOB>
+                                                     ]
+                                  ] ;
+        fdk:isAuthoritative       true ;
+        fdk:isOpenData            true .
 
 <https://fellesdatakatalog.brreg.no/api/concepts/ac207ee9-972a-4ba9-a2d6-c368135caf0b>
         a                skos:Concept ;
@@ -86,7 +121,7 @@
         a              dcat:Catalog ;
         dct:publisher  <https://organization-catalogue.staging.fellesdatakatalog.digdir.no/organizations/910298062> ;
         dct:title      "Datakatalog for HIDRASUND OG BJONEROA"@nb ;
-        dcat:dataset   <http://brreg.no/catalogs/910298062/datasets/12136d8b-024e-4d63-a8ed-5e1885d701cd> , <http://brreg.no/catalogs/910298062/datasets/738c2348-aeb4-4a92-9a10-c39ae6b9f3fe> , <http://brreg.no/catalogs/910298062/datasets/7e4fbd01-2684-45c3-8ac1-70ebfebe8513> .
+        dcat:dataset   <http://brreg.no/catalogs/910298062/datasets/12136d8b-024e-4d63-a8ed-5e1885d701cd> , <http://brreg.no/catalogs/910298062/datasets/738c2348-aeb4-4a92-9a10-c39ae6b9f3fe> , <http://brreg.no/catalogs/910298062/datasets/7e4fbd01-2684-45c3-8ac1-70ebfebe8513> , <http://brreg.no/catalogs/910244132/datasets/c32b7a4f-655f-45f6-88f6-d01f05d0f7c2> .
 
 <http://brreg.no/catalogs/910298062/datasets/738c2348-aeb4-4a92-9a10-c39ae6b9f3fe>
         a                 dcat:Dataset ;
