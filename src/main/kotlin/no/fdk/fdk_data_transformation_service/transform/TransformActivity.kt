@@ -15,9 +15,7 @@ class TransformActivity(
     fun initiateTransform(key: String) =
         catalogTypeFromRabbitMessageKey(key)
             ?.let {
-                if (it != CatalogType.CONCEPTS) {
-                    launch { transform.transformCatalogForSPARQL(it) }
-                }
+                launch { transform.transformCatalogForSPARQL(it) }
             }
 
 }
