@@ -23,29 +23,34 @@ class TransformService(
 ) {
     fun transformCatalogForSPARQL(catalogType: CatalogType) {
         LOGGER.debug("Starting sparql-transform of $catalogType")
-        val orgs = RDFDataMgr.loadModel(uris.organizations, Lang.TURTLE)
-        val catalog = RDFDataMgr.loadModel(catalogType.uri(uris), Lang.TURTLE)
+        try {
+            val orgs = RDFDataMgr.loadModel(uris.organizations, Lang.TURTLE)
+            val catalog = RDFDataMgr.loadModel(catalogType.uri(uris), Lang.TURTLE)
 
-        if (catalogType == CatalogType.DATASETS) catalog.addFDKTags()
+            if (catalogType == CatalogType.DATASETS) catalog.addFDKTags()
 
-        val transformedCatalog = orgs?.createModelOfPublishersWithOrgData(
-            catalog?.extractInadequatePublishers() ?: emptySet(), uris.organizations)
-            ?.let { catalog?.union(it) }
+            val transformedCatalog = orgs?.createModelOfPublishersWithOrgData(
+                catalog?.extractInadequatePublishers() ?: emptySet(), uris.organizations
+            )
+                ?.let { catalog?.union(it) }
 
-        when {
-            catalog == null -> LOGGER.error("Unable to get RDF-data from ${catalogType.uri(uris)}")
-            orgs == null -> {
-                LOGGER.error("Unable to get organizations, updating fdk-sparql-service with untransformed $catalogType-catalog")
-                sparqlAdapter.updateGraph(catalog, catalogType)
+            when {
+                catalog == null -> LOGGER.error("Unable to get RDF-data from ${catalogType.uri(uris)}")
+                orgs == null -> {
+                    LOGGER.error("Unable to get organizations, updating fdk-sparql-service with untransformed $catalogType-catalog")
+                    sparqlAdapter.updateGraph(catalog, catalogType)
+                }
+                transformedCatalog == null -> {
+                    LOGGER.error("Transform of $catalogType failed, updating fdk-sparql-service with untransformed catalog")
+                    sparqlAdapter.updateGraph(catalog, catalogType)
+                }
+                else -> {
+                    LOGGER.debug("Transform of $catalogType complete")
+                    sparqlAdapter.updateGraph(transformedCatalog, catalogType)
+                }
             }
-            transformedCatalog == null -> {
-                LOGGER.error("Transform of $catalogType failed, updating fdk-sparql-service with untransformed catalog")
-                sparqlAdapter.updateGraph(catalog, catalogType)
-            }
-            else -> {
-                LOGGER.debug("Transform of $catalogType complete")
-                sparqlAdapter.updateGraph(transformedCatalog, catalogType)
-            }
+        } catch (ex: Exception) {
+            LOGGER.error("Transform of $catalogType failed", ex)
         }
     }
 
