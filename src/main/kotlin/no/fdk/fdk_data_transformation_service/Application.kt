@@ -1,13 +1,13 @@
 package no.fdk.fdk_data_transformation_service
 
-import no.fdk.fdk_data_transformation_service.config.ApplicationGraph
-import no.fdk.fdk_data_transformation_service.config.ApplicationURI
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
+import org.springframework.scheduling.annotation.EnableScheduling
 
 @SpringBootApplication
-@EnableConfigurationProperties(ApplicationURI::class, ApplicationGraph::class)
+@ConfigurationPropertiesScan
+@EnableScheduling
 open class Application
 
 fun main(args: Array<String>) {
