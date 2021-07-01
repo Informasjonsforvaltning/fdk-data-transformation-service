@@ -15,9 +15,11 @@
                 <logLevel>
                     <fieldName>severity</fieldName>
                 </logLevel>
-                <message/>
+                <message>
+                    <fieldName>shortMessage</fieldName>
+                </message>
                 <pattern>
-                    <pattern>{ "serviceContext": { "service": "fdk-data-transformation-service" } }</pattern>
+                    <pattern>{ "message": "%exception%message", "serviceContext": { "service": "fdk-data-transformation-service" } }</pattern>
                 </pattern>
             </providers>
         </encoder>
