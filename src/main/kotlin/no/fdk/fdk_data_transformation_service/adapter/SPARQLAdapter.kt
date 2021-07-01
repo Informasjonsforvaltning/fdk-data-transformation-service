@@ -48,10 +48,10 @@ class SPARQLAdapter(private val uris: ApplicationURI, private val graphs: Applic
                 if (IntRange(200, 299).contains(responseCode)) {
                     LOGGER.info("Graph '$graphName' updated, status: $responseCode")
                 } else {
-                    LOGGER.error("Update of graph '$graphName' failed, status: $responseCode")
+                    LOGGER.error(Exception("Update of graph '$graphName' failed, status: $responseCode").stackTraceToString())
                 }
             } catch (ex: Exception) {
-                LOGGER.error("Error when updating graph '$graphName'", ex)
+                LOGGER.error("${ex.stackTraceToString()}: Error when updating graph '$graphName'")
             } finally {
                 disconnect()
             }
