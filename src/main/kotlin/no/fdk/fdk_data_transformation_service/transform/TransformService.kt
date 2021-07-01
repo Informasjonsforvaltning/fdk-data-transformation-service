@@ -35,13 +35,13 @@ class TransformService(
                 ?.let { catalog?.union(it) }
 
             when {
-                catalog == null -> LOGGER.error("Unable to get RDF-data from ${catalogType.uri(uris)}")
+                catalog == null -> LOGGER.error(Exception("Unable to get RDF-data from ${catalogType.uri(uris)}").stackTraceToString())
                 orgs == null -> {
-                    LOGGER.error("Unable to get organizations, updating fdk-sparql-service with untransformed $catalogType-catalog")
+                    LOGGER.error(Exception("Unable to get organizations, updating fdk-sparql-service with untransformed $catalogType-catalog").stackTraceToString())
                     sparqlAdapter.updateGraph(catalog, catalogType)
                 }
                 transformedCatalog == null -> {
-                    LOGGER.error("Transform of $catalogType failed, updating fdk-sparql-service with untransformed catalog")
+                    LOGGER.error(Exception("Transform of $catalogType failed, updating fdk-sparql-service with untransformed catalog").stackTraceToString())
                     sparqlAdapter.updateGraph(catalog, catalogType)
                 }
                 else -> {
@@ -50,7 +50,7 @@ class TransformService(
                 }
             }
         } catch (ex: Exception) {
-            LOGGER.error("Transform of $catalogType failed", ex)
+            LOGGER.error("${ex.stackTraceToString()}: Transform of $catalogType failed")
         }
     }
 
